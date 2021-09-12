@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,8 +12,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
+    public function register() {
         //
     }
 
@@ -21,8 +21,9 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-        //
+    public function boot() {
+        Validator::extend('keysExists', function ($attribute, $value, $parameters, $validator) {
+            return $parameters[0]::whereIn($parameters[1], array_keys($value))->count() === count(array_keys($value));
+        });
     }
 }
