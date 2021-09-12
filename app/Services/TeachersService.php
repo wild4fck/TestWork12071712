@@ -44,6 +44,7 @@ class TeachersService {
         $teacher = Teachers::find($data['id']);
         $teacher->update($data);
 
+        //TODO перезаписывается всё, нужно сделать чтобы сохранялись курсы которые были до изменения
         $teacher->courses()->detach();
 
         self::saveCourses($data['courses'], $teacher);
