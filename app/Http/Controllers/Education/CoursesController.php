@@ -36,7 +36,7 @@ class CoursesController extends Controller {
      * @return JsonResponse
      */
     public function add(CoursesRequest $request): JsonResponse {
-        return coursesService::create($request->all());
+        return CoursesService::create($request->all());
     }
 
     /**
@@ -44,7 +44,7 @@ class CoursesController extends Controller {
      * @return JsonResponse
      */
     public function edit(CoursesRequest $request): JsonResponse {
-        return coursesService::update($request->all());
+        return CoursesService::update($request->all());
     }
 
     /**
