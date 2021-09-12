@@ -1,17 +1,16 @@
 <template>
     <b-tabs content-class="mt-3">
 
-
-        <b-tab active title="Студенты">
-            <students></students>
+        <b-tab active title="Курсы">
+            <courses></courses>
         </b-tab>
 
         <b-tab title="Преподаватели">
             <teachers></teachers>
         </b-tab>
 
-        <b-tab title="Курсы">
-            <courses></courses>
+        <b-tab title="Студенты">
+            <students></students>
         </b-tab>
 
     </b-tabs>
