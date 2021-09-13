@@ -117,13 +117,41 @@ export default {
         submitTeacher(event) {
             event.preventDefault();
             let url = this.editMode ? '/teachers/edit' : '/teachers/add';
-            let courses = this.form.courses.map(a => a.id);
-            let data = Object.assign(this.form, {
+            let courses = [...this.form.courses].map(a => a.id);
+            let data = Object.assign(Object.assign({}, this.form), {
                 courses: courses
             });
-            axios.post(url, data).then((data) => {
+            axios.post(url, data).then((response) => {
+                this.$notify({
+                    group: 'message',
+                    type: 'success',
+                    position: 'top left',
+                    title: response.data.title,
+                    text: response.data.text,
+                });
                 this.$refs.addModalTeacher.hide()
                 this.event()
+            }).catch((error) => {
+                let errorMess = '<ul>';
+                if (error.response) {
+                    let arError = error.response.data.errors;
+                    for (let index in arError) {
+                        errorMess += '<li>';
+                        errorMess += arError[index].join('</li><li>');
+                    }
+                } else if (error.request) {
+                    errorMess += error.request;
+                } else {
+                    errorMess += error;
+                }
+                errorMess += '</li></ul>';
+                this.$notify({
+                    group: 'message',
+                    type: 'error',
+                    position: 'top left',
+                    title: 'Ошибка',
+                    text: errorMess,
+                });
             })
         },
         editRow(row) {
@@ -141,7 +169,14 @@ export default {
         deleteRow(id) {
             axios.post('teachers/delete', {
                 id: id
-            }).then((data) => {
+            }).then((response) => {
+                this.$notify({
+                    group: 'message',
+                    type: 'success',
+                    position: 'top left',
+                    title: response.data.title,
+                    text: response.data.text,
+                });
                 this.event()
             })
         },

@@ -37,8 +37,8 @@ class CoursesRequest extends FormRequest {
      */
     public function messages(): array {
         return [
-            'name.required' => 'Поле "Фамилия" не может быть пустым!',
-            'name.max' => 'Поле "Фамилия" не может быть длиннее 128 символов!',
+            'name.required' => 'Поле "Название" не может быть пустым!',
+            'name.max' => 'Поле "Название" не может быть длиннее 128 символов!',
         ];
     }
 }

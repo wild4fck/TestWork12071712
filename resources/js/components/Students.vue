@@ -144,9 +144,37 @@ export default {
         submitStudent(event) {
             event.preventDefault();
             let url = this.editMode ? '/students/edit' : '/students/add';
-            axios.post(url, this.form).then((data) => {
+            axios.post(url, this.form).then((response) => {
+                this.$notify({
+                    group: 'message',
+                    type: 'success',
+                    position: 'top left',
+                    title: response.data.title,
+                    text: response.data.text,
+                });
                 this.$refs.addModalStudent.hide()
                 this.event()
+            }).catch((error) => {
+                let errorMess = '<ul>';
+                if (error.response) {
+                    let arError = error.response.data.errors;
+                    for (let index in arError) {
+                        errorMess += '<li>';
+                        errorMess += arError[index].join('</li><li>');
+                    }
+                } else if (error.request) {
+                    errorMess += error.request;
+                } else {
+                    errorMess += error;
+                }
+                errorMess += '</li></ul>';
+                this.$notify({
+                    group: 'message',
+                    type: 'error',
+                    position: 'top left',
+                    title: 'Ошибка',
+                    text: errorMess,
+                });
             })
         },
         editRow(row) {
@@ -173,7 +201,14 @@ export default {
         deleteRow(id) {
             axios.post('students/delete', {
                 id: id
-            }).then((data) => {
+            }).then((response) => {
+                this.$notify({
+                    group: 'message',
+                    type: 'success',
+                    position: 'top left',
+                    title: response.data.title,
+                    text: response.data.text,
+                });
                 this.event()
             })
         },

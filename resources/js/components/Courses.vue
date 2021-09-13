@@ -4,7 +4,7 @@
 
         <b-modal id="modal-create-course" ref="addModalCourse" centered hide-footer title="Добавить курс"
                  @hide="closeModal">
-            <b-form @submit="submitTeacher">
+            <b-form @submit="submitCourse">
                 <b-form-group
                     id="input-group-1"
                     label="Название:"
@@ -75,12 +75,40 @@ export default {
                 this.courses = this.$root.courses = response.data;
             })
         },
-        submitTeacher(event) {
+        submitCourse(event) {
             event.preventDefault();
             let url = this.editMode ? '/courses/edit' : '/courses/add';
-            axios.post(url, this.form).then((data) => {
+            axios.post(url, this.form).then((response) => {
+                this.$notify({
+                    group: 'message',
+                    type: 'success',
+                    position: 'top left',
+                    title: response.data.title,
+                    text: response.data.text,
+                });
                 this.$refs.addModalCourse.hide()
                 this.event()
+            }).catch((error) => {
+                let errorMess = '<ul>';
+                if (error.response) {
+                    let arError = error.response.data.errors;
+                    for (let index in arError) {
+                        errorMess += '<li>';
+                        errorMess += arError[index].join('</li><li>');
+                    }
+                } else if (error.request) {
+                    errorMess += error.request;
+                } else {
+                    errorMess += error;
+                }
+                errorMess += '</li></ul>';
+                this.$notify({
+                    group: 'message',
+                    type: 'error',
+                    position: 'top left',
+                    title: 'Ошибка',
+                    text: errorMess,
+                });
             })
         },
         editRow(row) {
@@ -95,7 +123,14 @@ export default {
         deleteRow(id) {
             axios.post('courses/delete', {
                 id: id
-            }).then((data) => {
+            }).then((response) => {
+                this.$notify({
+                    group: 'message',
+                    type: 'success',
+                    position: 'top left',
+                    title: response.data.title,
+                    text: response.data.text,
+                });
                 this.event()
             })
         },

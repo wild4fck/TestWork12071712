@@ -13,6 +13,7 @@
             <students></students>
         </b-tab>
 
+        <notifications group="message"/>
     </b-tabs>
 </template>
 

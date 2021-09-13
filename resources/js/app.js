@@ -11,7 +11,7 @@ window.Vue = require('vue').default;
 
 import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue'
 import Multiselect from "vue-multiselect";
-
+import Notifications from 'vue-notification'
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -25,6 +25,8 @@ import Multiselect from "vue-multiselect";
 
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
+Vue.use(Notifications);
+
 
 Vue.component('multiselect', Multiselect)
 
